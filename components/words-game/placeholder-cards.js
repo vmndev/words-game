@@ -41,7 +41,7 @@ export const PlaceholderCards = () => {
       })}
       {!isModelEmpty && (
         <div className={styles.selectionClearButton} onClick={clearAll}>
-          <span>+</span>
+          <span>✘</span>
         </div>
       )}
     </div>
