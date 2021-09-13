@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { GameContext } from "../../context/context";
-import styles from "./words-game.module.scss";
+import styles from "./footer.module.scss";
 
 export const SkipButton = () => {
   const { score, shuffleWord, decrementScore, incrementMistakes } =

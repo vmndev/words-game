@@ -1,0 +1,14 @@
+.footer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.skipButton {
+  padding: 10px 20px;
+  width: 160px;
+  background: white;
+  border: 1px solid;
+  border-radius: 5px;
+  cursor: pointer;
+}

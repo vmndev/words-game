@@ -11,9 +11,6 @@ export const Header = () => {
         <GameLife />
         <GameScore />
       </div>
-      <div className={styles.headerRight}>
-        <Record />
-      </div>
     </div>
   );
 };
