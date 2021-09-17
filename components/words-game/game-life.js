@@ -1,14 +1,17 @@
+import React from "react";
 import { useContext, useEffect, useState, useRef } from "react";
 import classnames from "classnames";
 
-import { GameContext } from "../../context/context";
+import { MistakesContext, ScoreContext } from "../../context/context";
 import { useAnswerState } from "../../hooks/use-answer-state";
 
 import styles from "./header.module.scss";
 
 export const GameLife = () => {
-  const { mistakes, maxMistakes, incrementMaxMistakes, score } =
-    useContext(GameContext);
+  const { score } = useContext(ScoreContext);
+  const { mistakes, maxMistakes, incrementMaxMistakes } =
+    useContext(MistakesContext);
+
   const [isCorrect] = useAnswerState();
   const correctAnswersCount = useRef(0);
   const [animate, setAnimate] = useState(false);

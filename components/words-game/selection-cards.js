@@ -1,13 +1,11 @@
-import styles from "./words-game.module.scss";
-
-import { useContext, useMemo } from "react";
+import React, { useMemo } from "react";
 import classNames from "classnames";
 
-import { GameContext } from "../../context/context";
+import styles from "./words-game.module.scss";
+
 import { shuffle } from "../../utils";
 
-export const SelectionCards = () => {
-  const { word, model, updateModel } = useContext(GameContext);
+export const SelectionCards = ({ word, model, updateModel }) => {
   const shuffledArr = useMemo(() => shuffle([...word]), [word]);
 
   const getNextState = ({ shuffledIndex, letter, isUsed }) => {
@@ -38,13 +36,6 @@ export const SelectionCards = () => {
 
   return (
     <div className={styles.selectionCardsWrapper}>
-      {/* <button
-        key={"Im_so_fkn_special"}
-        className={styles.singleLetter}
-        onClick={() => updateModel([...Array(word.length)])}
-      >
-        x
-      </button> */}
       {shuffledArr.map((letter, idx) => {
         const isUsed = model.some((selected) => {
           return selected?.shuffledIndex === idx;

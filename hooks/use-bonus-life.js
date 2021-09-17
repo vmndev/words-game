@@ -2,21 +2,8 @@ import { useContext, useEffect, useRef } from "react";
 import { GameContext } from "../context/context";
 
 export const useBonusLife = () => {
-  const {
-    word,
-    model,
-    shuffleWord,
-    incrementScore,
-    incrementMistakes,
-    incrementMaxMistakes,
-    updateModel,
-    mistakes,
-    maxMistakes,
-    resetGame,
-    correctAnswersCount,
-    resetCorrectAnswersCount,
-    incrementCorrectAnswersCount,
-  } = useContext(GameContext);
+  const { correctAnswersCount, resetCorrectAnswersCount } =
+    useContext(GameContext);
 
   const correctCount = useRef(0);
 

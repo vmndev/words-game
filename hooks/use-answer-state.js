@@ -1,16 +1,20 @@
 import { useContext, useEffect, useState } from "react";
-import { GameContext } from "../context/context";
+import { GameContext, MistakesContext, ScoreContext } from "../context/context";
 
 export const useAnswerState = () => {
   const {
     word,
     model,
     shuffleWord,
-    incrementScore,
-    incrementMistakes,
+    // incrementMistakes,
     updateModel,
-    incrementCorrectAnswersCount,
+    // incrementCorrectAnswersCount,
   } = useContext(GameContext);
+
+  const { incrementScore } = useContext(ScoreContext);
+
+  const { incrementMistakes, incrementCorrectAnswersCount } =
+    useContext(MistakesContext);
 
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const selectedWord = model

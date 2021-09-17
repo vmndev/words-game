@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState, useRef } from "react";
+import React, { useContext } from "react";
 import { GameContext } from "../../context/context";
 import { useIsMounted } from "../../hooks/use-is-mounted";
 import { GameEndScreen } from "./game-end-screen";
@@ -10,36 +10,20 @@ import { Header } from "./header";
 import { Footer } from "./footer";
 
 export const WordsGame = () => {
-  const [isGameEnd, setIsGameEnd] = useState(false);
   const mounted = useIsMounted();
-  const { shuffleWord, mistakes, maxMistakes, resetGame } =
-    useContext(GameContext);
-
-  useEffect(() => {
-    if (mistakes >= maxMistakes) {
-      setIsGameEnd(true);
-    }
-  }, [maxMistakes, mistakes, resetGame]);
-
-  const handleNewGameClick = () => {
-    resetGame();
-    shuffleWord();
-    setIsGameEnd(false);
-  };
+  const { word, model, updateModel } = useContext(GameContext);
 
   if (!mounted) return null;
 
   return (
-    <>
+    <div className={styles.gameWrapper}>
       <Header />
-      <div className={styles.gameWrapper}>
-        <div className={styles.cardsWrapper}>
-          <PlaceholderCards />
-          <SelectionCards />
-        </div>
-        <Footer />
+      <div className={styles.cardsWrapper}>
+        <PlaceholderCards model={model} updateModel={updateModel} />
+        <SelectionCards word={word} model={model} updateModel={updateModel} />
       </div>
-      {!!isGameEnd && <GameEndScreen onClick={handleNewGameClick} />}
-    </>
+      <Footer />
+      <GameEndScreen />
+    </div>
   );
 };

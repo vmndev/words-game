@@ -1,10 +1,15 @@
-import { useContext } from "react";
-import { GameContext } from "../../context/context";
+import React, { useContext } from "react";
+import {
+  GameContext,
+  MistakesContext,
+  ScoreContext,
+} from "../../context/context";
 import styles from "./footer.module.scss";
 
 export const SkipButton = () => {
-  const { score, shuffleWord, decrementScore, incrementMistakes } =
-    useContext(GameContext);
+  const { shuffleWord } = useContext(GameContext);
+  const { score, decrementScore } = useContext(ScoreContext);
+  const { incrementMistakes } = useContext(MistakesContext);
   const handleOnClick = () => {
     shuffleWord();
 

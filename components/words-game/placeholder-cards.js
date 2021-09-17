@@ -2,8 +2,7 @@ import styles from "./words-game.module.scss";
 import { useContext } from "react";
 import { GameContext } from "../../context/context";
 
-export const PlaceholderCards = () => {
-  const { model, updateModel } = useContext(GameContext);
+export const PlaceholderCards = ({ model, updateModel }) => {
   const isModelEmpty = model.filter(Boolean).length === 0;
 
   const clearAll = () => {
