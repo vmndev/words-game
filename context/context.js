@@ -9,19 +9,11 @@ export const MistakesContext = createContext();
 const initialWord = names[Math.floor(Math.random() * names.length)];
 export const initialGameState = {
   word: initialWord,
-  // score: 0,
-  // mistakes: 0,
-  // maxMistakes: 6,
   model: [...Array(initialWord.length)],
-  // correctAnswersCount: 0,
 };
 
 export const initialScoreState = {
   score: 0,
-  // mistakes: 0,
-  // maxMistakes: 6,
-  // model: [...Array(initialWord.length)],
-  // correctAnswersCount: 0,
 };
 
 export const initialMistakesState = {
@@ -71,37 +63,15 @@ export const GameProvider = ({ children }) => {
     () => ({
       word: state.word,
       model: state.model,
-      // score: state.score,
-      // mistakes: state.mistakes,
-      // maxMistakes: state.maxMistakes,
-      // correctAnswersCount: state.correctAnswersCount,
       shuffleWord: () => {
         dispatch({ type: actions.SHUFFLE_WORD });
       },
-      // incrementScore: () => {
-      //   dispatch({ type: actions.INCREMENT_SCORE });
-      // },
-      // decrementScore: () => {
-      //   dispatch({ type: actions.DECREMENT_SCORE });
-      // },
-      // incrementMistakes: () => {
-      //   dispatch({ type: actions.INCREMENT_MISTAKES });
-      // },
-      // incrementMaxMistakes: () => {
-      //   dispatch({ type: actions.INCREMENT_MAX_MISTAKES });
-      // },
       resetGame: () => {
         dispatch({ type: actions.RESET_GAME });
       },
       updateModel: (model) => {
         dispatch({ type: actions.UPDATE_MODEL, payload: model });
       },
-      // incrementCorrectAnswersCount: () => {
-      //   dispatch({ type: actions.INCREMENT_CORRECT_ANSWERS });
-      // },
-      // resetCorrectAnswersCount: () => {
-      //   dispatch({ type: actions.RESET_CORRECT_ANSWERS });
-      // },
     }),
     [state, dispatch]
   );
