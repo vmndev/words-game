@@ -1,6 +1,5 @@
 import { GameLife } from "./game-life";
 import { GameScore } from "./game-score";
-import { Record } from "./record";
 
 import styles from "./header.module.scss";
 
