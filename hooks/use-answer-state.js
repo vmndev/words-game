@@ -1,17 +1,9 @@
 import { useContext, useEffect, useState } from "react";
-import { GameContext, MistakesContext, ScoreContext } from "../context/context";
+import { GameContext, MistakesContext } from "../context/context";
 
 export const useAnswerState = () => {
-  const {
-    word,
-    model,
-    shuffleWord,
-    // incrementMistakes,
-    updateModel,
-    // incrementCorrectAnswersCount,
-  } = useContext(GameContext);
-
-  const { incrementScore } = useContext(ScoreContext);
+  const { word, model, shuffleWord, updateModel, incrementScore } =
+    useContext(GameContext);
 
   const { incrementMistakes, incrementCorrectAnswersCount } =
     useContext(MistakesContext);

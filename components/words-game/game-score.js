@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import classnames from "classnames";
 
-import { ScoreContext } from "../../context/context";
+import { GameContext } from "../../context/context";
 import styles from "./header.module.scss";
 
 export const GameScore = () => {
-  const { score } = useContext(ScoreContext);
+  const { score } = useContext(GameContext);
   const [animate, setAnimate] = useState(false);
   useEffect(() => {
     setAnimate(true);

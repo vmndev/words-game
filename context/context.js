@@ -1,5 +1,5 @@
 import React, { createContext, useMemo, useReducer } from "react";
-import { gameReducer, mistakesReducer, scoreReducer } from "./reducer";
+import { gameReducer, mistakesReducer } from "./reducer";
 import { names } from "./names";
 
 export const GameContext = createContext();
@@ -10,11 +10,10 @@ const initialWord = names[Math.floor(Math.random() * names.length)];
 export const initialGameState = {
   word: initialWord,
   model: [...Array(initialWord.length)],
-};
-
-export const initialScoreState = {
   score: 0,
 };
+
+export const initialScoreState = {};
 
 export const initialMistakesState = {
   mistakes: 0,
@@ -35,27 +34,6 @@ export const actions = {
   RESET_MISTAKES: "RESET_MISTAKES",
 };
 
-export const ScoreProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(scoreReducer, initialScoreState);
-
-  const value = useMemo(
-    () => ({
-      score: state.score,
-      incrementScore: () => {
-        dispatch({ type: actions.INCREMENT_SCORE });
-      },
-      decrementScore: () => {
-        dispatch({ type: actions.DECREMENT_SCORE });
-      },
-    }),
-    [state, dispatch]
-  );
-
-  return (
-    <ScoreContext.Provider value={value}>{children}</ScoreContext.Provider>
-  );
-};
-
 export const GameProvider = ({ children }) => {
   const [state, dispatch] = useReducer(gameReducer, initialGameState);
 
@@ -63,6 +41,7 @@ export const GameProvider = ({ children }) => {
     () => ({
       word: state.word,
       model: state.model,
+      score: state.score,
       shuffleWord: () => {
         dispatch({ type: actions.SHUFFLE_WORD });
       },
@@ -71,6 +50,12 @@ export const GameProvider = ({ children }) => {
       },
       updateModel: (model) => {
         dispatch({ type: actions.UPDATE_MODEL, payload: model });
+      },
+      incrementScore: () => {
+        dispatch({ type: actions.INCREMENT_SCORE });
+      },
+      decrementScore: () => {
+        dispatch({ type: actions.DECREMENT_SCORE });
       },
     }),
     [state, dispatch]

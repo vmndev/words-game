@@ -19,7 +19,7 @@ export const WordsGame = () => {
     <div className={styles.gameWrapper}>
       <Header />
       <div className={styles.cardsWrapper}>
-        <PlaceholderCards model={model} updateModel={updateModel} />
+        <PlaceholderCards key={word} model={model} updateModel={updateModel} />
         <SelectionCards word={word} model={model} updateModel={updateModel} />
       </div>
       <Footer />

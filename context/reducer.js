@@ -1,17 +1,6 @@
 import { actions, initialGameState, initialMistakesState } from "./context";
 import { names } from "./names";
 
-export const scoreReducer = (state, action) => {
-  switch (action.type) {
-    case actions.INCREMENT_SCORE:
-      return { ...state, score: state.score + 1 };
-    case actions.DECREMENT_SCORE:
-      return { ...state, score: state.score - 1 };
-    default:
-      return state;
-  }
-};
-
 export const gameReducer = (state, action) => {
   const nextWord = names[Math.floor(Math.random() * names.length)];
   switch (action.type) {
@@ -27,6 +16,10 @@ export const gameReducer = (state, action) => {
       return { ...state, model: action.payload };
     case actions.RESET_GAME:
       return initialGameState;
+    case actions.INCREMENT_SCORE:
+      return { ...state, score: state.score + 1 };
+    case actions.DECREMENT_SCORE:
+      return { ...state, score: state.score - 1 };
     default:
       return state;
   }
