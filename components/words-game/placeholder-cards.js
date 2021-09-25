@@ -1,21 +1,28 @@
+import { useCallback } from "react";
+import { useGameState, useGameUpdater } from "../../context/context";
 import styles from "./words-game.module.scss";
 
-export const PlaceholderCards = ({ model, updateModel }) => {
+export const PlaceholderCards = () => {
+  const { model } = useGameState();
+  const { updateModel } = useGameUpdater();
   const isModelEmpty = model.filter(Boolean).length === 0;
 
-  const clearAll = () => {
+  const clearAll = useCallback(() => {
     updateModel([...Array(model.length)]);
-  };
+  }, [model, updateModel]);
 
-  const handlePlaceholderClick = ({ shuffledIndex }) => {
-    const tempArr = [...model];
-    const selectedItemIndex = tempArr.findIndex(
-      (item) => item?.shuffledIndex === shuffledIndex
-    );
+  const handlePlaceholderClick = useCallback(
+    ({ shuffledIndex }) => {
+      const tempArr = [...model];
+      const selectedItemIndex = tempArr.findIndex(
+        (item) => item?.shuffledIndex === shuffledIndex
+      );
 
-    tempArr[selectedItemIndex] = undefined;
-    updateModel(tempArr);
-  };
+      tempArr[selectedItemIndex] = undefined;
+      updateModel(tempArr);
+    },
+    [model, updateModel]
+  );
 
   return (
     <div className={styles.placeholdersWrapper}>

@@ -1,10 +1,11 @@
 import { useContext, useMemo } from "react";
-import { GameContext, MistakesContext } from "../context/context";
+import { DispatchContext, GameContext } from "../context/context";
 
 export const useMistakeData = () => {
-  const { mistakes, maxMistakes, incrementMistakes, incrementMaxMistakes } =
-    useContext(MistakesContext);
-  console.log(mistakes);
+  const { mistakes, maxMistakes } = useContext(GameContext);
+  const { incrementMistakes, incrementMaxMistakes } =
+    useContext(DispatchContext);
+
   return useMemo(() => {
     return {
       mistakes,

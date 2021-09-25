@@ -20,13 +20,6 @@ export const gameReducer = (state, action) => {
       return { ...state, score: state.score + 1 };
     case actions.DECREMENT_SCORE:
       return { ...state, score: state.score - 1 };
-    default:
-      return state;
-  }
-};
-
-export const mistakesReducer = (state, action) => {
-  switch (action.type) {
     case actions.INCREMENT_MISTAKES:
       return { ...state, mistakes: state.mistakes + 1 };
     case actions.INCREMENT_MAX_MISTAKES:

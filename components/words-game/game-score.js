@@ -1,25 +1,18 @@
-import React, { useContext, useEffect, useState } from "react";
-import classnames from "classnames";
-
-import { GameContext } from "../../context/context";
+import { useMemo, useRef } from "react";
+import { useGameState } from "../../context/context";
 import styles from "./header.module.scss";
 
 export const GameScore = () => {
-  const { score } = useContext(GameContext);
-  const [animate, setAnimate] = useState(false);
-  useEffect(() => {
-    setAnimate(true);
+  const { score } = useGameState();
+  let { current } = useRef(0);
 
-    setTimeout(() => setAnimate(false), 1000);
-  }, [score]);
-
-  const starClassname = classnames(styles.star, { [styles.animate]: animate });
+  current = useMemo(() => score, [score]);
 
   return (
     <div className={styles.headerItemWrapper}>
-      <span className={styles.score}>{score}</span>
+      <span className={styles.score}>{current}</span>
       <span className={styles.ex}>x</span>
-      <span className={starClassname}>⭐️</span>
+      <span className={styles.star}>⭐️</span>
     </div>
   );
 };

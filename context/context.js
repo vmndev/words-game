@@ -1,21 +1,15 @@
 import React, { createContext, useMemo, useReducer } from "react";
-import { gameReducer, mistakesReducer } from "./reducer";
+import { gameReducer } from "./reducer";
 import { names } from "./names";
 
 export const GameContext = createContext();
-export const ScoreContext = createContext();
-export const MistakesContext = createContext();
+export const DispatchContext = createContext();
 
 const initialWord = names[Math.floor(Math.random() * names.length)];
 export const initialGameState = {
   word: initialWord,
   model: [...Array(initialWord.length)],
   score: 0,
-};
-
-export const initialScoreState = {};
-
-export const initialMistakesState = {
   mistakes: 0,
   maxMistakes: 6,
   correctAnswersCount: 0,
@@ -32,16 +26,38 @@ export const actions = {
   INCREMENT_CORRECT_ANSWERS: "INCREMENT_CORRECT_ANSWERS",
   RESET_CORRECT_ANSWERS: "RESET_CORRECT_ANSWERS",
   RESET_MISTAKES: "RESET_MISTAKES",
+  HANDLE_SKIP: "HANDLE_SKIP",
 };
 
 export const GameProvider = ({ children }) => {
   const [state, dispatch] = useReducer(gameReducer, initialGameState);
 
-  const value = useMemo(
+  return (
+    <GameContext.Provider value={state}>
+      <DispatchContext.Provider value={dispatch}>
+        {children}
+      </DispatchContext.Provider>
+    </GameContext.Provider>
+  );
+};
+
+export const useGameState = () => {
+  const gameState = React.useContext(GameContext);
+  if (typeof gameState === "undefined") {
+    throw new Error("useGameState must be used within a GameProvider");
+  }
+  return gameState;
+};
+
+export const useGameUpdater = () => {
+  const dispatch = React.useContext(DispatchContext);
+
+  if (typeof dispatch === "undefined") {
+    throw new Error("useGameUpdater must be used within a GameProvider");
+  }
+
+  return useMemo(
     () => ({
-      word: state.word,
-      model: state.model,
-      score: state.score,
       shuffleWord: () => {
         dispatch({ type: actions.SHUFFLE_WORD });
       },
@@ -57,21 +73,6 @@ export const GameProvider = ({ children }) => {
       decrementScore: () => {
         dispatch({ type: actions.DECREMENT_SCORE });
       },
-    }),
-    [state, dispatch]
-  );
-
-  return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
-};
-
-export const MistakesProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(mistakesReducer, initialMistakesState);
-
-  const value = useMemo(
-    () => ({
-      mistakes: state.mistakes,
-      maxMistakes: state.maxMistakes,
-      correctAnswersCount: state.correctAnswersCount,
       incrementMistakes: () => {
         dispatch({ type: actions.INCREMENT_MISTAKES });
       },
@@ -81,19 +82,18 @@ export const MistakesProvider = ({ children }) => {
       resetMistakes: () => {
         dispatch({ type: actions.RESET_MISTAKES });
       },
-      incrementCorrectAnswersCount: () => {
-        dispatch({ type: actions.INCREMENT_CORRECT_ANSWERS });
-      },
-      resetCorrectAnswersCount: () => {
-        dispatch({ type: actions.RESET_CORRECT_ANSWERS });
+      // incrementCorrectAnswersCount: () => {
+      //   dispatch({ type: actions.INCREMENT_CORRECT_ANSWERS });
+      // },
+      // resetCorrectAnswersCount: () => {
+      //   dispatch({ type: actions.RESET_CORRECT_ANSWERS });
+      // },
+      handleSkip: () => {
+        dispatch({ type: actions.SHUFFLE_WORD });
+        dispatch({ type: actions.INCREMENT_MISTAKES });
+        dispatch({ type: actions.HANDLE_SKIP });
       },
     }),
-    [state, dispatch]
-  );
-
-  return (
-    <MistakesContext.Provider value={value}>
-      {children}
-    </MistakesContext.Provider>
+    [dispatch]
   );
 };

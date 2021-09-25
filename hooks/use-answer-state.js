@@ -1,12 +1,16 @@
-import { useContext, useEffect, useState } from "react";
-import { GameContext, MistakesContext } from "../context/context";
+import { useEffect, useState } from "react";
+import { useGameState, useGameUpdater } from "../context/context";
 
 export const useAnswerState = () => {
-  const { word, model, shuffleWord, updateModel, incrementScore } =
-    useContext(GameContext);
+  const { word, model } = useGameState();
 
-  const { incrementMistakes, incrementCorrectAnswersCount } =
-    useContext(MistakesContext);
+  const {
+    incrementMistakes,
+    // incrementCorrectAnswersCount,
+    shuffleWord,
+    updateModel,
+    incrementScore,
+  } = useGameUpdater();
 
   const [isCorrectAnswer, setIsCorrectAnswer] = useState(false);
   const selectedWord = model
@@ -27,7 +31,7 @@ export const useAnswerState = () => {
       setIsCorrectAnswer("correct");
       shuffleWord();
       incrementScore();
-      incrementCorrectAnswersCount();
+      // incrementCorrectAnswersCount();
       return;
     }
 
@@ -35,7 +39,7 @@ export const useAnswerState = () => {
     incrementMistakes();
     updateModel([...Array(word.length)]);
   }, [
-    incrementCorrectAnswersCount,
+    // incrementCorrectAnswersCount,
     incrementMistakes,
     incrementScore,
     selectedWord,

@@ -1,11 +1,14 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import classNames from "classnames";
 
 import styles from "./words-game.module.scss";
 
 import { shuffle } from "../../utils";
+import { useGameState, useGameUpdater } from "../../context/context";
 
-export const SelectionCards = ({ word, model, updateModel }) => {
+export const SelectionCards = () => {
+  const { updateModel } = useGameUpdater();
+  const { word, model } = useGameState();
   const shuffledArr = useMemo(() => shuffle([...word]), [word]);
 
   const getNextState = ({ shuffledIndex, letter, isUsed }) => {
