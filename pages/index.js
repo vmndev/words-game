@@ -1,4 +1,3 @@
-import React from "react";
 // import Head from "next/head";
 // import Image from "next/image";
 import { WordsGame } from "../components/words-game/words-game";
