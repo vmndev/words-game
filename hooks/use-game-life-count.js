@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useGameState, useGameUpdater } from "../context/context";
 import { useAnswerState } from "./use-answer-state";
 
@@ -6,7 +6,7 @@ export function useGameLifeCount() {
   const { mistakes, maxMistakes } = useGameState();
   const { incrementMaxMistakes } = useGameUpdater();
   const [isCorrect] = useAnswerState();
-  const correctAnswersCount = useRef(0);
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
 
   const handleIncrementMaxMistakes = useCallback(
     () => incrementMaxMistakes(),
@@ -15,22 +15,22 @@ export function useGameLifeCount() {
 
   useEffect(() => {
     if (isCorrect === "correct") {
-      correctAnswersCount.current += 1;
-      if (correctAnswersCount.current >= 10) {
+      setCorrectAnswersCount(count => count+1)
+      if (correctAnswersCount >= 10) {
         handleIncrementMaxMistakes();
-        correctAnswersCount.current = 0;
+        setCorrectAnswersCount(0);
       }
     }
     if (isCorrect === "incorrect") {
-      correctAnswersCount.current = 0;
+      setCorrectAnswersCount(0);
     }
-  }, [handleIncrementMaxMistakes, isCorrect]);
+  }, [correctAnswersCount, handleIncrementMaxMistakes, isCorrect]);
 
   return useMemo(
     () => ({
       mistakesCount: maxMistakes - mistakes,
-      correctAnswersCount: correctAnswersCount.current,
+      correctAnswersCount: correctAnswersCount,
     }),
-    [maxMistakes, mistakes]
+    [correctAnswersCount, maxMistakes, mistakes]
   );
 }
